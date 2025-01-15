@@ -65,6 +65,6 @@ export const profileSlice = createSlice({
     },
 });
 
-export const { setIsOnboarding, setSaveUser, addReservations, setIsOnboardingQrCode, setIsApi, setPolicyPath } =
+export const profileActions =
     profileSlice.actions;
 export const profileReducer = profileSlice.reducer;

@@ -8,6 +8,7 @@ import { tabBarOptions } from '../../helpers/tabHelpers.ts';
 import { Image, View } from 'react-native';
 import { isIOS } from '../../helpers/platformHelpers.ts';
 import Colors from '../../styles/Colors.ts';
+import {IconComponent} from '../../components/icon/IconComponent.tsx';
 
 const Tab = createBottomTabNavigator();
 
@@ -99,10 +100,7 @@ const TabNavigator = () => {
                   justifyContent: 'center',
                 }}
               >
-                <Image
-                  source={require('../../assets/img/setting-icon/setting-4.png')}
-                  resizeMode={'cover'}
-                />
+                <IconComponent icon={'lineHistory'} />
               </View>
             );
           },

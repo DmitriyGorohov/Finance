@@ -1,4 +1,4 @@
-import React, {type FC, Fragment, useState} from 'react';
+import React, { type FC, Fragment, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Image,
@@ -10,19 +10,19 @@ import {
 } from 'react-native';
 import Colors from '../../styles/Colors.ts';
 import { useImagePicker } from '../../utils/hooks/useImagePiker.tsx';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
+  profileActions,
   profileSelector,
-  setIsOnboarding,
-  setSaveUser,
 } from '../../store/profile/profileSlice.ts';
 import { KeyboardView } from '../../components/base/KeyboardView.tsx';
 import ButtonCustom from '../../components/ButtonCustom.tsx';
+import { useActions } from '../../utils/hooks/useActions.ts';
 
 interface AuthScreenProps {}
 
 const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const { setIsOnboarding, setSaveUser } = useActions(profileActions);
   const { isOnboarding, account } = useSelector(profileSelector);
   const [name, setName] = useState(account === null ? '' : account.userName);
   const [age, setAge] = useState(account === null ? '' : account.userAge);
@@ -30,18 +30,16 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
   const { pickFromGallery, imageUri } = useImagePicker();
 
   const onSubmit = () => {
-    dispatch(
-      setSaveUser({
-        userName: name,
-        userAge: age,
-        userEmail: '',
-        userAvatar: imageUri as string,
-      })
-    );
+    setSaveUser({
+      userName: name,
+      userAge: age,
+      userEmail: '',
+      userAvatar: imageUri as string,
+    })
 
     setAge('');
     setName('');
-    dispatch(setIsOnboarding(true));
+    setIsOnboarding(true);
   };
 
   return (
@@ -74,7 +72,10 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
             ) : (
               <Image
                 resizeMode={'cover'}
-                style={{ width: account === null ? 100 : 200, height: account === null ? 100 : 200 }}
+                style={{
+                  width: account === null ? 100 : 200,
+                  height: account === null ? 100 : 200,
+                }}
                 source={
                   account === null
                     ? require('../../assets/img-finance/image-picker/gallery.png')

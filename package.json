@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android --terminal=\"iTerm.app\"",
-    "ios": "react-native run-ios --simulator='iPhone 15 Pro' --terminal=\"iTerm.app\"",
+    "ios": "react-native run-ios --simulator='iPhone 15 Pro Max'",
     "reset": "watchman watch-del-all && yarn start —reset-cache",
     "clean-android": "cd android && ./gradlew clean && cd ../",
     "clean-ios": "cd ios && xcodebuild clean && cd ../",

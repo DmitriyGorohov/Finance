@@ -9,6 +9,10 @@ import { profileSelector } from '../store/profile/profileSlice.ts';
 import { AuthStack } from './stacks';
 import EnabledStack from './stacks/EnabledStack.tsx';
 import TabNavigator from './tab/TabNavigator.tsx';
+import Screens from './consts/screens.ts';
+import IncomeScreen from '../screens/home/IncomeScreen.tsx';
+import ExpenseScreen from '../screens/home/ExpenseScreen.tsx';
+import NewsDetailScreen from '../screens/news/NewsDetailScreen.tsx';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +36,9 @@ const Routes = () => {
             <Stack.Screen name={Stacks.AUTH_STACK} component={AuthStack} />
           )}
           <Stack.Screen name={Stacks.TAB} component={TabNavigator} />
+          <Stack.Screen name={Screens.INCOME} component={IncomeScreen} />
+          <Stack.Screen name={Screens.EXPAND} component={ExpenseScreen} />
+          <Stack.Screen name={Screens.NEWS} component={NewsDetailScreen} />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
