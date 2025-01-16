@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   selectedItem: {
-    backgroundColor: '#4e2876',
+    backgroundColor: Colors.backgroundLight,
   },
   unselectedItem: {
     backgroundColor: Colors.backgroundLight,
