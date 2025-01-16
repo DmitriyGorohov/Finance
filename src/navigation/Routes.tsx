@@ -35,10 +35,12 @@ const Routes = () => {
           {!isOnboarding && (
             <Stack.Screen name={Stacks.AUTH_STACK} component={AuthStack} />
           )}
-          <Stack.Screen name={Stacks.TAB} component={TabNavigator} />
-          <Stack.Screen name={Screens.INCOME} component={IncomeScreen} />
-          <Stack.Screen name={Screens.EXPAND} component={ExpenseScreen} />
-          <Stack.Screen name={Screens.NEWS} component={NewsDetailScreen} />
+          <Stack.Group>
+            <Stack.Screen name={Stacks.TAB} component={TabNavigator} />
+            <Stack.Screen name={Screens.INCOME} component={IncomeScreen} />
+            <Stack.Screen name={Screens.EXPAND} component={ExpenseScreen} />
+            <Stack.Screen name={Screens.NEWS} component={NewsDetailScreen} />
+          </Stack.Group>
         </Stack.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
