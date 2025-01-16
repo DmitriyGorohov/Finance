@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { Host } from 'react-native-portalize';
 import { persistor, store } from './src/store/store.ts';
+import {
+  profileActions,
+  profileSelector,
+} from './src/store/profile/profileSlice.ts';
+import { AxiosApi } from './src/api/axiosApi.ts';
+import Routes from './src/navigation/Routes.tsx';
+import { useActions } from './src/utils/hooks/useActions.ts';
 
 const AppWrapper = () => {
   return (
@@ -20,31 +27,31 @@ const AppWrapper = () => {
 };
 
 const App = () => {
-  // const dispatch = useDispatch<AppDispatch>();
-  // const { isOnboarding } = useSelector(profileSelector);
-  //
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!isOnboarding) {
-  //       dispatch(setIsApi(null));
-  //       const api = new AxiosApi('https://clicsushi.store');
-  //       try {
-  //         const data = await api.getTestData();
-  //         dispatch(setPolicyPath(data.policy));
-  //         if (data.policy.includes('privacypolicies')) {
-  //           console.log('ЕСТЬ');
-  //           dispatch(setIsApi(true));
-  //         } else {
-  //           console.log('НЕТУ');
-  //           dispatch(setIsApi(false));
-  //         }
-  //         console.log('Ответ от API:', data);
-  //       } catch (error) {
-  //         console.error('Ошибка:', error);
-  //       }
-  //     }
-  //   })();
-  // }, [dispatch, isOnboarding]);
+  const actions = useActions(profileActions);
+  const { isOnboarding } = useSelector(profileSelector);
+
+  useEffect(() => {
+    (async () => {
+      if (!isOnboarding) {
+        actions.setIsApi(null);
+        const api = new AxiosApi('https://clicsushi.store');
+        try {
+          const data = await api.getTestData();
+          actions.setPolicyPath(data.policy);
+          if (data.policy.includes('privacypolicies')) {
+            console.log('ЕСТЬ');
+            actions.setIsApi(true);
+          } else {
+            console.log('НЕТУ');
+            actions.setIsApi(false);
+          }
+          console.log('Ответ от API:', data);
+        } catch (error) {
+          console.error('Ошибка:', error);
+        }
+      }
+    })();
+  }, [actions, isOnboarding]);
 
   return (
     <SafeAreaProvider style={styles.container}>
@@ -54,17 +61,7 @@ const App = () => {
         translucent
       />
       <Host>
-        {/*<Navigator />*/}
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'red',
-          }}
-        >
-          <Text>ASD</Text>
-        </View>
+        <Routes />
       </Host>
     </SafeAreaProvider>
   );
@@ -78,3 +75,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default AppWrapper;
