@@ -144,7 +144,6 @@ const ExpenseScreen: FC<ExpenseScreenProps> = (): React.JSX.Element => {
             data={categoriesE}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
-            // contentContainerStyle={styles.list}
           />
         </View>
       </KeyboardView>
