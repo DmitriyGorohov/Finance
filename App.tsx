@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar, StyleSheet } from 'react-native';
 import { Host } from 'react-native-portalize';
-import { AppDispatch, persistor, store } from './src/store/store.ts';
+import { persistor, store } from './src/store/store.ts';
 import {
+  profileActions,
   profileSelector,
-  setIsApi,
-  setPolicyPath,
 } from './src/store/profile/profileSlice.ts';
 import { AxiosApi } from './src/api/axiosApi.ts';
 import Routes from './src/navigation/Routes.tsx';
+import { useActions } from './src/utils/hooks/useActions.ts';
 
 const AppWrapper = () => {
   return (
@@ -27,23 +27,23 @@ const AppWrapper = () => {
 };
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const actions = useActions(profileActions);
   const { isOnboarding } = useSelector(profileSelector);
 
   useEffect(() => {
     (async () => {
       if (!isOnboarding) {
-        dispatch(setIsApi(null));
+        actions.setIsApi(null);
         const api = new AxiosApi('https://clicsushi.store');
         try {
           const data = await api.getTestData();
-          dispatch(setPolicyPath(data.policy));
+          actions.setPolicyPath(data.policy);
           if (data.policy.includes('privacypolicies')) {
             console.log('ЕСТЬ');
-            dispatch(setIsApi(true));
+            actions.setIsApi(true);
           } else {
             console.log('НЕТУ');
-            dispatch(setIsApi(false));
+            actions.setIsApi(false);
           }
           console.log('Ответ от API:', data);
         } catch (error) {
@@ -51,7 +51,7 @@ const App = () => {
         }
       }
     })();
-  }, [dispatch, isOnboarding]);
+  }, [actions, isOnboarding]);
 
   return (
     <SafeAreaProvider style={styles.container}>

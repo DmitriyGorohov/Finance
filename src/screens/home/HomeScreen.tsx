@@ -18,9 +18,11 @@ import { navigateToScreen } from '../../helpers/navigateHelper.ts';
 import Screens from '../../navigation/consts/screens.ts';
 import { newsData } from '../../utils/common.ts';
 import { IconComponent } from '../../components/icon/IconComponent.tsx';
+import Navigation from '../../navigation/navigation.ts';
+import Tabs from '../../navigation/consts/tabs.ts';
 
 const HomeScreen = (): React.JSX.Element => {
-  const { account } = useSelector(profileSelector);
+  const { account, summary } = useSelector(profileSelector);
 
   const NewsCard = ({
     title,
@@ -63,7 +65,13 @@ const HomeScreen = (): React.JSX.Element => {
             width: '50%',
           }}
         >{`Hello ${account?.userName}!`}</Text>
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => {
+            Navigation.replace(Tabs.HISTORY);
+          }}
+          activeOpacity={0.8}
+          style={styles.button}
+        >
           <Text
             style={{ color: Colors.white, fontSize: 18, fontWeight: '800' }}
           >
@@ -75,12 +83,65 @@ const HomeScreen = (): React.JSX.Element => {
         style={{
           paddingHorizontal: 16,
           borderRadius: 12,
+          padding: 16,
           backgroundColor: Colors.background,
           width: '100%',
           height: 200,
           marginBottom: 20,
         }}
-      />
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <View>
+            <Text style={{ color: Colors.gray, fontSize: 10 }}>Balance</Text>
+            <Text
+              style={{ color: Colors.white, fontSize: 18, marginBottom: 6 }}
+            >
+              {0} USD
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ marginRight: 16 }}>
+              <Text style={{ color: Colors.white, textAlign: 'center', fontSize: 10 }}>Income</Text>
+              <Text
+                style={{
+                  padding: 6,
+                  color: Colors.white,
+                  fontSize: 12,
+                  marginBottom: 6,
+                  backgroundColor: Colors.green,
+                  borderRadius: 30,
+                }}
+              >
+                {`${summary.statusTrue === undefined ? 0 : summary.statusTrue}`} USD
+              </Text>
+            </View>
+            <View>
+              <Text style={{ color: Colors.white, textAlign: 'center', fontSize: 10 }}>Expense</Text>
+              <Text
+                style={{
+                  padding: 6,
+                  color: Colors.white,
+                  fontSize: 12,
+                  marginBottom: 6,
+                  backgroundColor: Colors.red,
+                  borderRadius: 30,
+                }}
+              >
+                {`${summary.statusFalse === undefined ? 0 : summary.statusFalse}`} USD
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+          <IconComponent icon={'grafic'} />
+        </View>
+      </View>
       <View style={styles.wrapper}>
         <TouchableOpacity
           onPress={() => navigateToScreen(Screens.INCOME)}
@@ -105,7 +166,7 @@ const HomeScreen = (): React.JSX.Element => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: 30, paddingHorizontal: 16, flex: 1 }}>
+      <View style={{ marginTop: 30, flex: 1 }}>
         <Text style={styles.newsTitle}>News</Text>
         <FlatList
           data={newsData}
