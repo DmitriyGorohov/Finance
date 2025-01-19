@@ -110,6 +110,7 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
           style={styles.input}
           placeholderTextColor={Colors.gray}
           placeholder={'Enter the text...'}
+          keyboardType={'numeric'}
           value={age}
           onChangeText={setAge}
         />
