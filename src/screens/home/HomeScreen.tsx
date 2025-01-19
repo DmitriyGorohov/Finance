@@ -2,7 +2,6 @@ import React from 'react';
 import {
   FlatList,
   Image,
-  ImageRequireSource,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,17 +11,15 @@ import { useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { profileSelector } from '../../store/profile/profileSlice.ts';
-
 import Colors from '../../styles/Colors.ts';
 import { navigateToScreen } from '../../helpers/navigateHelper.ts';
 import Screens from '../../navigation/consts/screens.ts';
-import { newsData } from '../../utils/common.ts';
 import { IconComponent } from '../../components/icon/IconComponent.tsx';
 import Navigation from '../../navigation/navigation.ts';
 import Tabs from '../../navigation/consts/tabs.ts';
 
 const HomeScreen = (): React.JSX.Element => {
-  const { account, summary } = useSelector(profileSelector);
+  const { account, summary, articles } = useSelector(profileSelector);
 
   const NewsCard = ({
     title,
@@ -30,14 +27,14 @@ const HomeScreen = (): React.JSX.Element => {
     id,
     description,
   }: {
-    id: string;
+    id: number;
     title: string;
     description: string;
-    image: ImageRequireSource;
+    image: string;
   }) => {
     return (
       <View style={styles.card}>
-        <Image source={image} style={styles.image} />
+        <Image source={{ uri: `${image}` }} style={styles.image} />
         <Text style={styles.title}>{title}</Text>
         <TouchableOpacity
           onPress={() =>
@@ -169,17 +166,17 @@ const HomeScreen = (): React.JSX.Element => {
       <View style={{ marginTop: 30, flex: 1 }}>
         <Text style={styles.newsTitle}>News</Text>
         <FlatList
-          data={newsData}
+          data={articles}
           renderItem={({ item }) => (
             <NewsCard
-              description={item.description}
+              description={item.content}
               id={item.id}
               title={item.title}
-              image={item.image}
+              image={item.img}
             />
           )}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => `${item.id}`}
         />
       </View>
     </SafeAreaView>

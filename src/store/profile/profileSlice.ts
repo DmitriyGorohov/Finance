@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store.ts';
+import {Articles} from '../../api/axiosApi.ts';
 
 export type UserType = {
   userName: string;
@@ -37,6 +38,7 @@ export interface ProfileState {
   reservations: ReservationType[];
   policyPath: string;
   summary: Summary;
+  articles: Articles[];
 }
 
 const initialState: ProfileState = {
@@ -48,6 +50,7 @@ const initialState: ProfileState = {
   reservations: [],
   policyPath: '',
   summary: { statusTrue: 0, statusFalse: 0 },
+  articles: [],
 };
 
 export const profileSelector = (state: RootState): ProfileState =>
@@ -57,6 +60,9 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
+    setArticles: (state, { payload }: PayloadAction<Articles[]>) => {
+      state.articles = payload;
+    },
     setHistory: (state: ProfileState, { payload }: PayloadAction<THistory>) => {
       state.history = [payload, ...(state.history || [])];
 

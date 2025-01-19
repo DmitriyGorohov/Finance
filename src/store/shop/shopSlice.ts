@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store.ts';
-import { EventTypeApi } from '../../utils/common.ts';
 
 export const shopSelector = (state: RootState): ShopState => state.shop;
 
@@ -18,7 +17,7 @@ export interface ShopState {
     itemBasket: { product: Product; quantity: number }[];
     itemFavorites: { product: Product; quantity: number }[];
     items: Product[];
-    events: EventTypeApi[];
+    events: any;
     enabledApi: boolean | null;
     path: string;
 }
@@ -40,7 +39,7 @@ const shopSlice = createSlice({
         setPath: (state, { payload }: PayloadAction<string>) => {
             state.path = payload;
         },
-        setEvents: (state, { payload }: PayloadAction<EventTypeApi[]>) => {
+        setEvents: (state, { payload }: PayloadAction<any>) => {
             state.events = payload;
         },
         setEnabledApi: (state, { payload }: PayloadAction<boolean | null>) => {
