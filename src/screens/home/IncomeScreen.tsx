@@ -124,6 +124,7 @@ const IncomeScreen: FC<IncomeScreenProps> = (): React.JSX.Element => {
           <TextInput
             placeholderTextColor={Colors.gray}
             placeholder="..."
+            keyboardType={'numeric'}
             style={styles.input}
             value={sum}
             onChangeText={setSum}

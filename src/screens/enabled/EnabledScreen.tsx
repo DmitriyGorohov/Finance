@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 40,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.red,
   },
 });
 export default EnabledScreen;

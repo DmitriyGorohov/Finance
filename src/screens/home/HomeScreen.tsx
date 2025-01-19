@@ -99,7 +99,7 @@ const HomeScreen = (): React.JSX.Element => {
             <Text
               style={{ color: Colors.white, fontSize: 18, marginBottom: 6 }}
             >
-              {0} USD
+              {summary.statusTrue - summary.statusFalse} USD
             </Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>

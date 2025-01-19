@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider, useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ const App = () => {
   const actions = useActions(profileActions);
   const { isOnboarding } = useSelector(profileSelector);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       if (!isOnboarding) {
         actions.setIsApi(true);
