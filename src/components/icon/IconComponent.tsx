@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { View, ImageStyle, Image } from 'react-native';
 import { IconProps } from './iconsProps.ts';
 import { iconsList } from './icons/index.ts';
-import { FC } from 'react';
 
 const ROOT: ImageStyle = {
   resizeMode: 'contain',

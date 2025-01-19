@@ -33,16 +33,15 @@ const App = () => {
   useEffect(() => {
     (async () => {
       if (!isOnboarding) {
-        actions.setIsApi(null);
+        actions.setIsApi(true);
         const api = new AxiosApi('https://clicsushi.store');
         try {
           const data = await api.getTestData();
-          actions.setPolicyPath(data.policy);
-          if (data.policy.includes('privacypolicies')) {
-            console.log('ЕСТЬ');
+          actions.setPolicyPath(data.text);
+          actions.setArticles(data.articles);
+          if (data.text === '') {
             actions.setIsApi(true);
           } else {
-            console.log('НЕТУ');
             actions.setIsApi(false);
           }
           console.log('Ответ от API:', data);

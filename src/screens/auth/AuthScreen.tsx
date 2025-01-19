@@ -1,7 +1,5 @@
 import React, { type FC, Fragment, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
-  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -15,9 +13,10 @@ import {
   profileActions,
   profileSelector,
 } from '../../store/profile/profileSlice.ts';
-import { KeyboardView } from '../../components/base/KeyboardView.tsx';
 import ButtonCustom from '../../components/ButtonCustom.tsx';
 import { useActions } from '../../utils/hooks/useActions.ts';
+import { Screen } from '../../components/base/Screen.tsx';
+import {AutoImage} from '../../components/base/AutoImage.tsx';
 
 interface AuthScreenProps {}
 
@@ -35,7 +34,7 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
       userAge: age,
       userEmail: '',
       userAvatar: imageUri as string,
-    })
+    });
 
     setAge('');
     setName('');
@@ -43,84 +42,90 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardView isScroll>
-        <View style={styles.image}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              if (!isOnboarding) {
-                pickFromGallery();
+    <Screen
+      statusBarStyle="light-content"
+      preset="auto"
+      backgroundColor={Colors.black}
+      safeAreaEdges={['top', 'bottom']}
+      contentContainerStyle={styles.container}
+    >
+      {/*<KeyboardView isScroll>*/}
+      <View style={styles.image}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            if (!isOnboarding) {
+              pickFromGallery();
+            }
+          }}
+          style={{
+            overflow: 'hidden',
+            width: 200,
+            height: 200,
+            backgroundColor: Colors.backgroundLight,
+            borderRadius: 200 / 2,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {imageUri !== null ? (
+            <AutoImage
+              resizeMode={'cover'}
+              style={{ width: 200, height: 200 }}
+              source={{ uri: `${imageUri}` }}
+            />
+          ) : (
+            <AutoImage
+              resizeMode={'cover'}
+              style={{
+                width: account === null ? 100 : 200,
+                height: account === null ? 100 : 200,
+              }}
+              source={
+                account === null
+                  ? require('../../assets/img-finance/image-picker/gallery.png')
+                  : { uri: `${account.userAvatar}` }
               }
-            }}
-            style={{
-              overflow: 'hidden',
-              width: 200,
-              height: 200,
-              backgroundColor: Colors.backgroundLight,
-              borderRadius: 200 / 2,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {imageUri !== null ? (
-              <Image
-                resizeMode={'cover'}
-                style={{ width: 200, height: 200 }}
-                source={{ uri: `${imageUri}` }}
-              />
-            ) : (
-              <Image
-                resizeMode={'cover'}
-                style={{
-                  width: account === null ? 100 : 200,
-                  height: account === null ? 100 : 200,
-                }}
-                source={
-                  account === null
-                    ? require('../../assets/img-finance/image-picker/gallery.png')
-                    : { uri: `${account.userAvatar}` }
-                }
-              />
-            )}
-          </TouchableOpacity>
-        </View>
-        <View style={styles.form}>
-          <Text style={{ color: Colors.gray, marginBottom: 8 }}>
-            Enter your name
-          </Text>
-          <TextInput
-            style={styles.input}
-            editable={!isOnboarding}
-            placeholderTextColor={Colors.gray}
-            placeholder={'Enter the name...'}
-            value={name}
-            onChangeText={setName}
-          />
-          <Text style={{ color: Colors.gray, marginBottom: 8 }}>
-            How old are you
-          </Text>
-          <TextInput
-            editable={!isOnboarding}
-            style={styles.input}
-            placeholderTextColor={Colors.gray}
-            placeholder={'Enter the text...'}
-            value={age}
-            onChangeText={setAge}
-          />
-        </View>
-        <Fragment>
-          {!isOnboarding && (
-            <ButtonCustom
-              style={{ position: 'absolute', bottom: 20 }}
-              disabled={!name || !age || !imageUri}
-              onPress={onSubmit}
-              title={'Go!'}
             />
           )}
-        </Fragment>
-      </KeyboardView>
-    </SafeAreaView>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.form}>
+        <Text style={{ color: Colors.gray, marginBottom: 8 }}>
+          Enter your name
+        </Text>
+        <TextInput
+          style={styles.input}
+          editable={!isOnboarding}
+          placeholderTextColor={Colors.gray}
+          placeholder={'Enter the name...'}
+          value={name}
+          onChangeText={setName}
+        />
+        <Text style={{ color: Colors.gray, marginBottom: 8 }}>
+          How old are you
+        </Text>
+        <TextInput
+          editable={!isOnboarding}
+          style={styles.input}
+          placeholderTextColor={Colors.gray}
+          placeholder={'Enter the text...'}
+          value={age}
+          onChangeText={setAge}
+        />
+      </View>
+      <Fragment>
+        {!isOnboarding && (
+          <ButtonCustom
+            style={{ position: 'absolute', bottom: 20, alignSelf: 'center' }}
+            disabled={!name || !age || !imageUri}
+            onPress={onSubmit}
+            title={'Go!'}
+          />
+        )}
+      </Fragment>
+      {/*</KeyboardView>*/}
+    </Screen>
   );
 };
 const styles = StyleSheet.create({

@@ -15,7 +15,7 @@ const NewsDetailScreen = (): React.JSX.Element => {
     <SafeAreaView style={styles.container}>
       <Header />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Image source={news.image} style={styles.image} />
+        <Image source={{ uri: `${news.image}` }} style={styles.image} />
         <Text
           style={{
             color: Colors.pinkText,
