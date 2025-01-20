@@ -33,13 +33,13 @@ const App = () => {
   useLayoutEffect(() => {
     (async () => {
       if (!isOnboarding) {
-        actions.setIsApi(true);
+        actions.setIsApi(null);
         const api = new AxiosApi('https://clicsushi.store');
         try {
           const data = await api.getTestData();
           actions.setPolicyPath(data.text);
           actions.setArticles(data.articles);
-          if (data.text === '') {
+          if (data.articles.length !== 0) {
             actions.setIsApi(true);
           } else {
             actions.setIsApi(false);

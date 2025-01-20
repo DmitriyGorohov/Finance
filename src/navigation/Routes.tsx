@@ -30,7 +30,7 @@ const Routes = () => {
         },
       }}
     >
-      {isApi ? (
+      {isApi && (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {!isOnboarding && (
             <Stack.Screen name={Stacks.AUTH_STACK} component={AuthStack} />
@@ -42,7 +42,8 @@ const Routes = () => {
             <Stack.Screen name={Screens.NEWS} component={NewsDetailScreen} />
           </Stack.Group>
         </Stack.Navigator>
-      ) : (
+        )}
+      {!isApi && (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name={Stacks.ENABLED} component={EnabledStack} />
         </Stack.Navigator>
